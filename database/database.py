@@ -87,6 +87,14 @@ class Database:
         self.conn.commit()
         return cursor.rowcount > 0
 
+    def remove_guild(self, guild_id: int) -> int:
+        """Delete every linked account in a server. Returns how many were removed."""
+        cursor = self.conn.execute(
+            "DELETE FROM linked_accounts WHERE guild_id = ?", (str(guild_id),)
+        )
+        self.conn.commit()
+        return cursor.rowcount
+
     def get_account(self, discord_user_id: int, guild_id: int) -> Optional[LinkedAccount]:
         row = self.conn.execute(
             "SELECT * FROM linked_accounts WHERE discord_user_id = ? AND guild_id = ?",

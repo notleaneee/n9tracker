@@ -4,6 +4,8 @@ A public Discord bot that gives any Discord server its own Valorant hub. Players
 
 Anyone can add N9 Tracker to their server. Each server's data is kept separate.
 
+**Website:** https://notleaneee.github.io/n9tracker/ · [Privacy policy](https://notleaneee.github.io/n9tracker/privacy.html) · [Terms](https://notleaneee.github.io/n9tracker/terms.html)
+
 ## Commands
 
 | Command | What it does | Status |
@@ -41,7 +43,7 @@ N9 Tracker never sees Riot passwords. Until RSO credentials are issued, developm
 
 - Stored per linked player: Discord user ID, Discord server ID, Riot ID, PUUID, link date. Match stats are stored only for linked players.
 - Data is shown only in the server where the player linked their account.
-- `/valorant remove` deletes the player's data from that server immediately.
+- `/valorant remove` deletes the player's data from that server immediately. Removing the bot from a server deletes all of that server's data.
 - There's no searching or tracking of players who haven't opted in, and no item store checker.
 - Uses only the official Riot API: no scraping, no unofficial APIs.
 - Free, with no ads and no paid features.

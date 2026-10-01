@@ -43,6 +43,11 @@ class N9TrackerBot(commands.Bot):
         print(f"✅ N9 Tracker connected as {self.user} (ID: {self.user.id})")
         print(f"   Serving {len(self.guilds)} server(s)")
 
+    async def on_guild_remove(self, guild: discord.Guild):
+        # Promised in the privacy policy: removing the bot deletes that server's data.
+        removed = self.db.remove_guild(guild.id)
+        print(f"Removed from server {guild.id}; deleted {removed} linked account(s)")
+
     async def close(self):
         await super().close()
         if self.riot is not None:

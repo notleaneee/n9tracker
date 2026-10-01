@@ -1,0 +1,189 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>N9 Tracker</title>
+  <meta name="description" content="A Discord bot that gives every server its own Valorant hub: link with Riot Sign-On, see recent matches, and compete on a server leaderboard.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="site">
+    <div class="wrap">
+      <a class="brand" href="index.html">N9<span>.</span>Tracker</a>
+      <nav>
+        <a href="#flow">How it works</a>
+        <a href="privacy.html">Privacy</a>
+        <a href="terms.html">Terms</a>
+        <a href="https://github.com/notleaneee/n9tracker">GitHub</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap hero">
+      <h1>Your server's own Valorant leaderboard.</h1>
+      <p>N9 Tracker is a Discord bot that lets players link their Riot account with Riot Sign-On, check their recent matches, and see how they rank against everyone else in their server.</p>
+      <a class="btn" href="https://discord.com/oauth2/authorize?client_id=1553552052452466799&amp;scope=bot+applications.commands&amp;permissions=18432">Add to Discord</a>
+      <a class="btn secondary" href="#flow">See how it works</a>
+      <p class="note">Free. No ads. Only players who sign in with Riot are ever tracked.</p>
+    </div>
+
+    <section>
+      <div class="wrap">
+        <h2>Features</h2>
+        <p class="lead">Everything happens through slash commands in your server.</p>
+        <div class="grid">
+          <div class="card"><h3>🔗 Link with Riot</h3><p><code>/valorant add</code> sends a private "Log in with Riot" link. You prove you own the account; we never see your password.</p></div>
+          <div class="card"><h3>🎯 Recent matches</h3><p><code>/valorant recent</code> shows your latest games: map, agent, K/D/A and result.</p></div>
+          <div class="card"><h3>🏆 Server leaderboard</h3><p><code>/valorant leaderboard</code> ranks the opted-in players in <em>your</em> server, kept separate from every other server.</p></div>
+          <div class="card"><h3>🗑️ Leave anytime</h3><p><code>/valorant remove</code> unlinks your account and deletes your data from that server immediately.</p></div>
+        </div>
+      </div>
+    </section>
+
+    <section id="flow">
+      <div class="wrap">
+        <h2>How it works</h2>
+        <p class="lead">The planned user experience, step by step. Screens below are mockups with example data.</p>
+
+        <div class="flow">
+          <div class="step">
+            <div class="step-num">1</div>
+            <div>
+              <h3>Run <code>/valorant add</code></h3>
+              <p>The bot replies privately (only the user can see it) with a sign-in link unique to them.</p>
+              <span class="example-tag">Mockup · example data</span>
+              <div class="chat">
+                <div class="msg">
+                  <div class="avatar">P</div>
+                  <div><div class="who">Player</div><div class="cmd">used <b>/valorant add</b></div></div>
+                </div>
+                <div class="msg">
+                  <div class="avatar bot">N9</div>
+                  <div>
+                    <div class="who">N9 Tracker <span class="tag">APP</span><span class="only">Only you can see this</span></div>
+                    <div>Link your Riot account to this server. You'll sign in on Riot's own website.</div>
+                    <span class="link-btn">🔗 Log in with Riot</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">2</div>
+            <div>
+              <h3>Sign in on Riot's website (RSO)</h3>
+              <p>The link opens Riot Sign-On on Riot's own domain. The user logs in and approves N9 Tracker. Riot then redirects back to N9 Tracker with proof of which account it is.</p>
+              <div class="signin">
+                <div class="url">auth.riotgames.com → (Riot's official sign-in and consent screen)</div>
+                <strong>Handled entirely by Riot</strong>
+                <ul>
+                  <li>The user enters their credentials on Riot's page only. N9 Tracker never sees them.</li>
+                  <li>The user approves sharing their Riot ID with N9 Tracker.</li>
+                  <li>Riot redirects to N9 Tracker's callback, which reads the account's PUUID and Riot ID.</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">3</div>
+            <div>
+              <h3>Linked</h3>
+              <p>The bot confirms in Discord. <code>/valorant profile</code> shows the linked account.</p>
+              <span class="example-tag">Mockup · example data</span>
+              <div class="chat">
+                <div class="msg">
+                  <div class="avatar bot">N9</div>
+                  <div>
+                    <div class="who">N9 Tracker <span class="tag">APP</span><span class="only">Only you can see this</span></div>
+                    <div>✅ Linked <b>Player#NA1</b>.</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">4</div>
+            <div>
+              <h3>Check recent matches</h3>
+              <p><code>/valorant recent</code> uses VAL-MATCH-V1 (match list by PUUID, then match details) for the linked player only.</p>
+              <span class="example-tag">Mockup · example data</span>
+              <div class="chat">
+                <div class="msg">
+                  <div class="avatar bot">N9</div>
+                  <div>
+                    <div class="who">N9 Tracker <span class="tag">APP</span></div>
+                    <div class="embed">
+                      <div class="title">Recent matches · Player#NA1</div>
+                      <table>
+                        <tr><th>Map</th><th>Agent</th><th>K/D/A</th><th>Result</th></tr>
+                        <tr><td>Ascent</td><td>Jett</td><td>21/14/5</td><td class="win">Win 13–9</td></tr>
+                        <tr><td>Bind</td><td>Sova</td><td>15/17/9</td><td class="loss">Loss 10–13</td></tr>
+                        <tr><td>Lotus</td><td>Omen</td><td>18/12/11</td><td class="win">Win 13–7</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="step">
+            <div class="step-num">5</div>
+            <div>
+              <h3>Compete on the server leaderboard</h3>
+              <p><code>/valorant leaderboard</code> compares only players who linked their account in this server.</p>
+              <span class="example-tag">Mockup · example data</span>
+              <div class="chat">
+                <div class="msg">
+                  <div class="avatar bot">N9</div>
+                  <div>
+                    <div class="who">N9 Tracker <span class="tag">APP</span></div>
+                    <div class="embed">
+                      <div class="title">🏆 Server leaderboard · last 20 matches</div>
+                      <table>
+                        <tr><th>#</th><th>Player</th><th>Win %</th><th>K/D</th></tr>
+                        <tr><td>1</td><td>Player#NA1</td><td>60%</td><td>1.31</td></tr>
+                        <tr><td>2</td><td>Teammate#0001</td><td>55%</td><td>1.12</td></tr>
+                        <tr><td>3</td><td>Friend#EUW</td><td>45%</td><td>0.98</td></tr>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="wrap">
+        <h2>Riot APIs used</h2>
+        <p class="lead">Official Riot API only. No scraping, no unofficial APIs.</p>
+        <div class="table-scroll">
+          <table class="data">
+            <tr><th>API</th><th>Used for</th></tr>
+            <tr><td>RSO (OAuth)</td><td>Proving the user owns the Riot account they link</td></tr>
+            <tr><td>ACCOUNT-V1</td><td>Riot ID and PUUID, and the account's active shard</td></tr>
+            <tr><td>VAL-MATCH-V1</td><td>Match list by PUUID and match details, for linked players only</td></tr>
+            <tr><td>VAL-CONTENT-V1</td><td>Agent, map and game-mode names</td></tr>
+            <tr><td>VAL-STATUS-V1</td><td>Server status and maintenance notices</td></tr>
+          </table>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site">
+    <div class="wrap">
+      <p><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of service</a><a href="https://github.com/notleaneee/n9tracker">Source code</a></p>
+      <p>N9 Tracker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.</p>
+    </div>
+  </footer>
+</body>
+</html>
