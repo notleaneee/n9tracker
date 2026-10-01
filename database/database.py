@@ -78,6 +78,15 @@ class Database:
         self.conn.commit()
         return replaced
 
+    def remove_account(self, discord_user_id: int, guild_id: int) -> bool:
+        """Delete a user's linked account in this server. Returns True if one was removed."""
+        cursor = self.conn.execute(
+            "DELETE FROM linked_accounts WHERE discord_user_id = ? AND guild_id = ?",
+            (str(discord_user_id), str(guild_id)),
+        )
+        self.conn.commit()
+        return cursor.rowcount > 0
+
     def get_account(self, discord_user_id: int, guild_id: int) -> Optional[LinkedAccount]:
         row = self.conn.execute(
             "SELECT * FROM linked_accounts WHERE discord_user_id = ? AND guild_id = ?",

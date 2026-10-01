@@ -1,25 +1,50 @@
-# Valorant Friends Tracker
+# N9 Tracker
 
-A private, non-commercial Discord bot for a single friend group's server. Members link their own Riot account, and the bot will show their recent Valorant matches and a private leaderboard that compares friends within that server.
+A public Discord bot that gives any Discord server its own Valorant hub. Players link their Riot account through Riot Sign-On (RSO), then see their recent matches and a server leaderboard that compares everyone who opted in on that server.
 
-## Status
+Anyone can add N9 Tracker to their server. Each server's data is kept separate.
 
-| Feature | Status | Riot API |
+## Commands
+
+| Command | What it does | Status |
 |---|---|---|
-| `/ping` | ✅ Working | — |
-| `/valorant add riot_id:Name#Tag` — link your Riot account | ✅ Working | ACCOUNT-V1 (verifies the Riot ID exists, stores the PUUID) |
-| `/valorant profile` — show your linked account | ✅ Working | — |
-| `/valorant recent` — your latest matches | ⏳ Waiting for production key | VAL-MATCH-V1 |
-| `/valorant leaderboard` — friends-only leaderboard for the server | ⏳ Waiting for production key | VAL-MATCH-V1 |
-| `/valorant remove` — unlink your account | Planned | — |
+| `/ping` | Check the bot is online | ✅ Live |
+| `/valorant add` | Link your Riot account | ✅ Live (Riot ID verified via ACCOUNT-V1); moving to RSO login, see below |
+| `/valorant profile` | Show your linked Riot account | ✅ Live |
+| `/valorant remove` | Unlink your account and delete your data from that server | ✅ Live |
+| `/valorant recent` | Your latest matches: map, agent, K/D/A, result | 🔒 Needs production access (VAL-MATCH-V1) |
+| `/valorant leaderboard` | Server leaderboard of opted-in players | 🔒 Needs production access (VAL-MATCH-V1) |
 
-## How it uses Riot data
+## Account linking with Riot Sign-On (RSO)
 
-- Only players who link their **own** account with `/valorant add` are tracked. There is no searching or tracking of other players.
-- Data is shown only inside the Discord server where the player linked their account.
-- Stored per player: Discord user ID, server ID, Riot ID, PUUID and the date linked. Match stats will be stored only for linked players.
-- Uses only the official Riot API (no scraping and no third-party stat sites), and respects Riot's rate limits.
-- Non-commercial: no ads, payments or paid features.
+Player data is only ever shown for players who log in with Riot themselves:
+
+1. A user runs `/valorant add` in their server.
+2. The bot replies with a private "Log in with Riot" link.
+3. The user signs in on Riot's own login page and approves N9 Tracker.
+4. Riot redirects back to N9 Tracker's callback, which confirms the account's PUUID and Riot ID.
+5. The bot confirms in Discord: "✅ Linked Name#TAG."
+
+N9 Tracker never sees Riot passwords. Until RSO credentials are issued, development builds verify a typed Riot ID through ACCOUNT-V1.
+
+## Riot APIs used
+
+| API | Used for |
+|---|---|
+| RSO (OAuth) | Proving the user owns the Riot account they link |
+| ACCOUNT-V1 | Riot ID ↔ PUUID, and the account's active shard |
+| VAL-MATCH-V1 | Match history (`matchlists/by-puuid`) and match details (`matches/{matchId}`) |
+| VAL-CONTENT-V1 | Agent, map and game-mode names |
+| VAL-STATUS-V1 | Server status and maintenance notices |
+
+## Data and privacy
+
+- Stored per linked player: Discord user ID, Discord server ID, Riot ID, PUUID, link date. Match stats are stored only for linked players.
+- Data is shown only in the server where the player linked their account.
+- `/valorant remove` deletes the player's data from that server immediately.
+- There's no searching or tracking of players who haven't opted in, and no item store checker.
+- Uses only the official Riot API: no scraping, no unofficial APIs.
+- Free, with no ads and no paid features.
 
 ## Tech
 
@@ -47,4 +72,4 @@ Secrets live only in `.env`, which is excluded from git.
 
 ---
 
-*Valorant Friends Tracker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.*
+*N9 Tracker isn't endorsed by Riot Games and doesn't reflect the views or opinions of Riot Games or anyone officially involved in producing or managing Riot Games properties. Riot Games and all associated properties are trademarks or registered trademarks of Riot Games, Inc.*

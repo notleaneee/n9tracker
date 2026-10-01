@@ -1,7 +1,7 @@
 """The /valorant slash command group.
 
-Implemented: add, profile.
-Planned: recent, leaderboard, remove.
+Implemented: add, profile, remove.
+Planned: recent, leaderboard.
 """
 
 from typing import Optional
@@ -74,6 +74,15 @@ class Valorant(commands.GroupCog, group_name="valorant", group_description="Valo
         embed.add_field(name="Riot ID", value=account.riot_id, inline=False)
         embed.set_author(name=interaction.user.display_name, icon_url=interaction.user.display_avatar.url)
         await interaction.response.send_message(embed=embed)
+
+    @app_commands.command(name="remove", description="Unlink your Valorant account and delete its data from this server")
+    async def remove(self, interaction: discord.Interaction):
+        removed = self.db.remove_account(interaction.user.id, interaction.guild_id)
+        if removed:
+            message = "✅ Your Valorant account has been unlinked and its data deleted from this server."
+        else:
+            message = "You don't have a Valorant account linked in this server."
+        await interaction.response.send_message(message, ephemeral=True)
 
 
 async def setup(bot: commands.Bot):

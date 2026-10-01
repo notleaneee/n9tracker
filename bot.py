@@ -1,4 +1,4 @@
-"""Valorant Friends Tracker - entry point.
+"""N9 Tracker - entry point.
 
 Run with:  python bot.py
 """
@@ -13,7 +13,7 @@ from services.valorant_service import RiotClient
 EXTENSIONS = ["commands.valorant"]
 
 
-class ValorantBot(commands.Bot):
+class N9TrackerBot(commands.Bot):
     def __init__(self):
         # Slash commands don't need message content, so default intents are enough.
         super().__init__(command_prefix=commands.when_mentioned, intents=discord.Intents.default())
@@ -40,7 +40,7 @@ class ValorantBot(commands.Bot):
             print(f"Synced {len(synced)} global command(s) (may take a while to appear)")
 
     async def on_ready(self):
-        print(f"✅ Valorant Tracker connected as {self.user} (ID: {self.user.id})")
+        print(f"✅ N9 Tracker connected as {self.user} (ID: {self.user.id})")
         print(f"   Serving {len(self.guilds)} server(s)")
 
     async def close(self):
@@ -50,12 +50,12 @@ class ValorantBot(commands.Bot):
         self.db.close()
 
 
-bot = ValorantBot()
+bot = N9TrackerBot()
 
 
 @bot.tree.command(name="ping", description="Check whether the bot is online")
 async def ping(interaction: discord.Interaction):
-    await interaction.response.send_message("Valorant Tracker is online! 🟢")
+    await interaction.response.send_message("N9 Tracker is online! 🟢")
 
 
 if __name__ == "__main__":
